@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: train-pipeline
+  annotations:
+    scenarios.ai.sap.com/description: "Tutorial to add custom code to SAP AI Core"
+    scenarios.ai.sap.com/name: "Train Flight Price Predictor"
+    executables.ai.sap.com/description: "Trains model on preedicting flight prices"
+    executables.ai.sap.com/name: "Flight Price (Sklearn Example)"
+    artifacts.ai.sap.com/housedataset.kind: "dataset" # Helps in suggesting the kind of inputs that can be attached.
+  labels:
+    scenarios.ai.sap.com/id: "train-code"
+    ai.sap.com/version: "1.0"
+spec:
+  imagePullSecrets:
+    - name: credstutorialrepo # your docker registry secret
+  entrypoint: mypipeline
+  templates:
+  - name: mypipeline
+    steps:
+    - - name: mypredictor
+        template: mycodeblock1
+
+  - name: mycodeblock1
+    inputs:
+      artifacts:  # placeholder for cloud storage attachements
+        - name: flightdataset # a name for the placeholder
+          path: /app/data/ # where to copy in the Dataset in the Docker image
+    outputs:
+      artifacts:
+        - name: flightpricemodel # local identifier name to the workflow
+          globalName: flightmodel # name of the artifact generated, and folder name when placed in S3, complete directory will be `../<executaion_id>/housemodel`. Also used above in annotation
+          path: /app/model/ # from which folder in docker image (after running workflow step) copy contents to cloud storage
+          archive:
+            none:   # specify not to compress while uploading to cloud
+              {}
+    container:
+      image: docker.io/noravth/flight-price:01 # Your docker image name
+      command: ["/bin/sh", "-c"]
+      args:
+        - "python /app/src/main.py"
