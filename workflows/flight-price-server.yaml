@@ -9,7 +9,7 @@ metadata:
     executables.ai.sap.com/name: "server"
     artifacts.ai.sap.com/flightpricemodel.kind: "model" # Suggest the kind of artifact to input.
   labels:
-    scenarios.ai.sap.com/id: "learning-datalines"
+    scenarios.ai.sap.com/id: "flight-server"
     ai.sap.com/version: "1.0"
 spec:
   inputs:
