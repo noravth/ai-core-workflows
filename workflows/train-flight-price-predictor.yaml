@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: train-pipeline
+  name: train-pipeline-flights
   annotations:
     scenarios.ai.sap.com/description: "Tutorial to add custom code to SAP AI Core"
     scenarios.ai.sap.com/name: "Train Flight Price Predictor"
