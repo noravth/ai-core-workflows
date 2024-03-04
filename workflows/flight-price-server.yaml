@@ -1,7 +1,7 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: server-pipeline
+  name: server-pipeline-flights
   annotations:
     scenarios.ai.sap.com/description: "Server to predict flight price"
     scenarios.ai.sap.com/name: "Server Flight Price Predictor"
